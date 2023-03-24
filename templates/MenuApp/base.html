@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing example</title>
+</head>
+<body>
+    {% load menu_tags %}
+    {% main_menu as menu %}
+
+
+    <ul>
+        {% for m in menu %}
+            <li><a href="{{ m.get_absolute_url }}">{{m.title}}</a></li>          
+            <ul>
+                {% if slug_menu %}
+                    {% for i in m.mainmenu.all %}
+                    {% if slug_menu == i.sub_menu.slug.lower %}
+                        <li><a href="{{i.get_absolute_url }}">{{ i.title }}</a></li>
+                    {% endif %}
+                <ul>
+                    {% if slug_item %}
+                        {% for si in i.item.all %}
+                            {% if slug_item == si.sub_item.slug.lower %}
+                                <li><a href="{{ si.get_absolute_url }}">{{si.title}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+
+                {% endfor %}
+            </ul>
+             {% endif %}            
+        {% endfor %}
+    </ul>
+
+    
+{% block subitem %}{% endblock subitem %}    
+
+</body>
+</html>
+
